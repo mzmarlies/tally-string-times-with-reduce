@@ -181,7 +181,44 @@
       Video 58
     </li>
   </ul>
+
+
 <script>
+  const timeNodes = Array.from(document.querySelectorAll('[data-time]'));
+
+  // if you type timeNodes into the console you'll see that it's a nodelist, 
+  // not an array, which means you can't use .map() on it. 
+  // In order to use map, we have to add Array.from() on the start of the querySelector 
+  
+  const seconds = timeNodes
+    .map(node => node.dataset.time) 
+    //took timeNodes and mapped it, making it from an arry of list items and into an array of strings
+
+    // now we want to turn it into seconds:
+    .map(timeCode => {
+      const [mins, secs] = timeCode.split(':').map(parseFloat);
+      // run the parseFloat fnct against every item in the result array
+      // will return an actual array of numbers (instead of a string)
+      return (mins * 60) + secs;
+      console.log(mins, secs)
+      // reduce will take in an array and return anything you want(number, string, etc)
+      // in our case we're reducing into one big number
+    })
+    .reduce((total, vidSeconds) => {
+      return total + vidSeconds;
+    })
+
+    let secondsLeft = seconds;
+    const hours = Math.floor(secondsLeft / 3600); 
+    secondsLeft = secondsLeft % 3600;
+    
+    const mins = Math.floor(secondsLeft / 60);
+    secondsLeft = secondsLeft % 60;
+
+  console.log(hours, mins, secondsLeft);
+
 </script>
+
+
 </body>
 </html>
